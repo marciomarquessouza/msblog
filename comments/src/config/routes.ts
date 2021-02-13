@@ -1,11 +1,8 @@
 import { Express, Router } from "express";
-import * as routes from "../routes";
+import { commentsRoutes } from "../routes";
 
 export default (app: Express): void => {
   const router = Router();
-  routes.createComment(router);
-  routes.listComments(router);
-  routes.events(router);
-
+  commentsRoutes(router);
   app.use(router);
 };

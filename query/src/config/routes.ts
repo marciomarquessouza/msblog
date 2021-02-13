@@ -1,8 +1,8 @@
 import { Express, Router } from "express";
-import { eventsRoutes } from "../routes";
+import { queryRoutes } from "../routes";
 
 export default (app: Express) => {
   const router = Router();
-  eventsRoutes(router);
+  queryRoutes(router);
   app.use(router);
 };
