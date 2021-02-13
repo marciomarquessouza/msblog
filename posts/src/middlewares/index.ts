@@ -1,1 +1,2 @@
-export { bodyParser } from "./body-parser";
+export * from "./body-parser";
+export * from "./cors";
