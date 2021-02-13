@@ -10,13 +10,16 @@ export const commentsRoutes = (router: Router) => {
     const postId = req.params.id;
     const { content } = req.body;
     const comments = commentsByPostId[postId] || [];
-    comments.push({ id: commentId, content });
+    const status = "pending";
+
+    comments.push({ id: commentId, content, status });
     commentsByPostId[postId] = comments;
 
     await axios.post("http://localhost:4005/events", {
       type: "createComment",
-      data: { id: commentId, postId, content },
+      data: { id: commentId, postId, content, status },
     });
+
     res.status(201).send(comments);
   });
 
@@ -25,8 +28,25 @@ export const commentsRoutes = (router: Router) => {
     res.status(200).send(commentsByPostId[postId] || []);
   });
 
-  router.post("/events", (req, res) => {
-    console.log("Received Event", req.body.type);
+  router.post("/events", async (req, res) => {
+    const { type, data } = req.body;
+
+    if (type === "moderateComment") {
+      const { postId, id, status, content } = data;
+      const comments = commentsByPostId[postId];
+      const comment = comments.find((comment) => comment.id === id);
+      comment.status = status;
+      await axios.post("http://localhost:4005/events", {
+        type: "updateComment",
+        data: {
+          id,
+          status,
+          postId,
+          content,
+        },
+      });
+    }
+
     res.send({ status: "ok" });
   });
 };
