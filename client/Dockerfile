@@ -1,6 +1,8 @@
 # using basic Node image with alpine - a basic linux image
 FROM node:alpine
 
+ENV CI=true
+
 # defining the initial workdir
 WORKDIR /usr/app/posts
 
