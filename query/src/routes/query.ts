@@ -29,6 +29,7 @@ export const queryRoutes = (router: Router) => {
   });
 
   router.post("/events", (req, res) => {
+    console.log("Received Event", req.body.type);
     const { type, data } = req.body;
     handleEvents(data, type);
     res.send({ status: "ok" });
