@@ -5,10 +5,12 @@ import axios from "axios";
 const posts = {};
 
 export const postRoutes = (router: Router) => {
-  router.post("/posts", async (req, res) => {
+  router.post("/posts/create", async (req, res) => {
     const id = randomBytes(4).toString("hex");
     const { title } = req.body;
     posts[id] = { id, title };
+
+    console.log("HERE");
 
     await axios.post("http://event-bus-srv:4005/events", {
       type: "createPost",
