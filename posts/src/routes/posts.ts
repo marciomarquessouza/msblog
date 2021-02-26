@@ -10,8 +10,6 @@ export const postRoutes = (router: Router) => {
     const { title } = req.body;
     posts[id] = { id, title };
 
-    console.log("HERE");
-
     await axios.post("http://event-bus-srv:4005/events", {
       type: "createPost",
       data: { id, title },
